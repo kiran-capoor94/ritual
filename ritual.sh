@@ -150,6 +150,14 @@ cp ./systemd/mnt-mac_airdrop.mount ~/.config/systemd/user/mnt-mac_airdrop.mount
 systemctl --user daemon-reload
 
 #########################################################
+# SOFTWARE ENGINEERING TOOLS - NPM-BASED CLIs
+#########################################################
+
+echo "Installing npm-based AI and dev tools..."
+
+bash ./install-scripts/install-ai-tools.sh
+
+#########################################################
 # FINAL OUTPUT
 #########################################################
 
