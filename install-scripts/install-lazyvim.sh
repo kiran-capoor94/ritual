@@ -7,7 +7,7 @@ echo "Setting up Lazyvim for Neovim..."
 # Backup existing nvim config if present
 if [ -d ~/.config/nvim ]; then
   echo "Backing up existing Neovim config..."
-  mv ~/.config/nvim ~/.config/nvim.backup.$(date +%s)
+  mv ~/.config/nvim "~/.config/nvim.backup.$(date +%s)"
 fi
 
 # Clone Lazyvim starter

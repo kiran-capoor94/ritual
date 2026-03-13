@@ -134,7 +134,7 @@ Both machines join the same mesh network.
 
 ## Install Tailscale (Linux)
 
-```
+```bash
 sudo pacman -S tailscale
 sudo systemctl enable --now tailscaled
 sudo tailscale up
@@ -158,14 +158,14 @@ Login with same account.
 
 From Linux:
 
-```
+```bash
 tailscale status
 ping <mac-tailscale-ip>
 ```
 
 Test SSH:
 
-```
+```bash
 ssh macbridge
 ```
 
@@ -183,7 +183,7 @@ File:
 
 Configuration:
 
-```
+```ini
 Host macbridge
     HostName <MAC_TAILSCALE_IP>
     User <mac_username>
@@ -229,26 +229,26 @@ Share via File Sharing (optional) but SSHFS is preferred.
 
 Install SSHFS:
 
-```
+```bash
 sudo pacman -S sshfs
 ```
 
 Create mount directory:
 
-```
+```bash
 mkdir -p /mnt/mac_airdrop
 sudo chown $USER:$USER /mnt/mac_airdrop
 ```
 
 Mount:
 
-```
+```bash
 sshfs macuser@mac-tailscale-ip:/Users/macuser/AirDropInbox /mnt/mac_airdrop
 ```
 
 Test:
 
-```
+```bash
 touch /mnt/mac_airdrop/testfile
 ```
 
@@ -262,7 +262,7 @@ Mount unit:
 ~/.config/systemd/user/mnt-mac_airdrop.mount
 ```
 
-```
+```ini
 [Unit]
 Description=SSHFS Mount for Mac AirDrop
 After=network-online.target
@@ -279,7 +279,7 @@ WantedBy=default.target
 
 Enable:
 
-```
+```bash
 systemctl --user daemon-reload
 systemctl --user enable mnt-mac_airdrop.mount
 systemctl --user start mnt-mac_airdrop.mount
@@ -287,7 +287,7 @@ systemctl --user start mnt-mac_airdrop.mount
 
 Enable lingering:
 
-```
+```bash
 sudo loginctl enable-linger $USER
 ```
 
@@ -307,7 +307,7 @@ Solution: **manual sync commands**
 ~/.local/bin/clip-push
 ```
 
-```
+```bash
 #!/usr/bin/env bash
 
 content=$(wl-paste 2>/dev/null)
@@ -324,7 +324,7 @@ notify-send "Clipboard" "Sent to Mac"
 
 Make executable:
 
-```
+```bash
 chmod +x ~/.local/bin/clip-push
 ```
 
@@ -336,7 +336,7 @@ chmod +x ~/.local/bin/clip-push
 ~/.local/bin/clip-pull
 ```
 
-```
+```bash
 #!/usr/bin/env bash
 
 content=$(ssh macbridge pbpaste 2>/dev/null)
@@ -359,7 +359,7 @@ System Settings → Shortcuts → Custom
 
 Bind:
 
-```
+```bash
 Meta + Shift + M → clip-push
 Meta + Shift + L → clip-pull
 ```
@@ -423,7 +423,7 @@ Work → repo access
 
 Generate:
 
-```
+```bash
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_personal
 ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_work
 ```
@@ -432,13 +432,13 @@ ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_work
 
 ## SSH Config
 
-```
+```ini
 Host github-personal
     HostName github.com
     User git
     IdentityFile ~/.ssh/id_ed25519_personal
 
-H#ost github-work
+Host github-work
     HostName github.com
     User git
     IdentityFile ~/.ssh/id_ed25519_work
@@ -466,7 +466,7 @@ File:
 
 Function:
 
-```
+```fish
 function gh-clone
     if test (count $argv) -ne 2
         echo "Usage: gh-clone <personal|work> <owner/repo>"
@@ -508,7 +508,7 @@ end
 
 Usage:
 
-```
+```bash
 gh-clone work company/backend
 gh-clone personal username/dotfiles
 ```
@@ -521,7 +521,7 @@ Use **Microsoft VS Code**, not OSS.
 
 Install:
 
-```
+```bash
 yay -S visual-studio-code-bin
 ```
 
@@ -542,11 +542,11 @@ Git pushes still use SSH identity.
 
 ---
 
-# 9. AWS CLI + SSM Setup
+## 9. AWS CLI + SSM Setup
 
 Install AWS CLI v2:
 
-```
+```bash
 sudo pacman -S aws-cli
 ```
 
@@ -556,50 +556,50 @@ sudo pacman -S aws-cli
 
 Download:
 
-```
+```bash
 curl https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm -o ssm.rpm
 ```
 
 Extract:
 
-```
+```bash
 sudo pacman -S rpmextract
 rpmextract.sh ssm.rpm
 ```
 
 Move binary:
 
-```
+```bash
 sudo cp usr/local/sessionmanagerplugin/bin/session-manager-plugin /usr/local/bin/
 sudo chmod +x /usr/local/bin/session-manager-plugin
 ```
 
 Verify:
 
-```
+```bash
 session-manager-plugin
 ```
 
 ---
 
-# AWS SSO
+## AWS SSO
 
-```
+```bash
 aws configure sso
 aws sso login
 ```
 
 Verify:
 
-```
+```bash
 aws sts get-caller-identity
 ```
 
 ---
 
-# SSM Port Forward Example
+## SSM Port Forward Example
 
-```
+```bash
 aws ssm start-session \
   --target INSTANCE_ID \
   --document-name AWS-StartPortForwardingSessionToRemoteHost \
@@ -608,13 +608,13 @@ aws ssm start-session \
 
 Connect:
 
-```
+```bash
 mysql -h 127.0.0.1 -P 3307
 ```
 
 ---
 
-# Final System Design
+## Final System Design
 
 ```
 Linux Dev Machine
@@ -641,7 +641,7 @@ Capabilities achieved:
 
 ---
 
-# If you want, I can also produce
+## If you want, I can also produce
 
 • a **single bootstrap script that sets this whole system up automatically**
 • a **personal engineering handbook template** (useful for staff/CTO trajectory)
