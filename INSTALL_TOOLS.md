@@ -1,6 +1,6 @@
 # Post-Installation Setup
 
-After running `ritual.sh`, complete these manual authentication steps:
+After running `bash ritual.sh install` and `bash ritual.sh configure`, complete these manual authentication steps:
 
 ## Node Version Manager (nvm)
 
@@ -10,7 +10,7 @@ nvm is installed via fisher (fish shell) with bash/zsh configuration added.
 nvm.fish is automatically installed and available.
 
 **Bash/Zsh:**
-Add to `~/.bashrc` or `~/.zshrc` if not already present (script adds automatically):
+Add to `~/.bashrc` or `~/.zshrc` if not already present. `ritual.sh install` adds this automatically:
 ```bash
 export NVM_HOME="$HOME/.local/share/nvm"
 [ -s "$NVM_HOME/nvm.sh" ] && . "$NVM_HOME/nvm.sh"
@@ -24,7 +24,7 @@ nvm use --latest-lts
 
 ## Installed CLI Tools (via yay)
 
-All of the following tools were installed during bootstrap:
+All of the following tools are installed during `bash ritual.sh install`:
 
 ### Claude Code CLI
 ```bash
@@ -48,13 +48,6 @@ gemini auth
 ```bash
 gh auth login
 ```
-
-## Unavailable Tools
-
-The following tools are not available in the AUR and were **not installed**:
-- **Codex CLI** — not available in any Linux repository
-- **GitHub Copilot CLI** — no official Linux version
-- **Claude Desktop** — not available for Linux
 
 ## VSCode Extensions
 
@@ -81,4 +74,12 @@ The AWS Session Manager plugin was installed during bootstrap. Test with:
 
 ```bash
 session-manager-plugin --version
+```
+
+## Ritual Health Check
+
+Validate the setup with:
+
+```bash
+bash ritual.sh doctor
 ```
