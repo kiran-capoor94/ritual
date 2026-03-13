@@ -12,17 +12,23 @@
         [x] Lazyvim (bootstrap script)
         [x] VSCode (AUR: visual-studio-code-bin)
         [x] Google Antigravity (AUR)
-        [x] Claude Desktop (AUR/download)
-        [x] Claude Code CLI (npm)
-        [x] OpenCode (npm)
-        [x] Aider Chat (AUR: aider-ai + pip)
-        [x] Gemini CLI (pip)
-        [x] Codex CLI (npm)
-        [x] GitHub Copilot CLI (npm)
+        [x] Claude Code CLI (AUR: claude-code)
+        [x] OpenCode (pacman)
+        [x] Aider Chat (AUR: aider-chat)
+        [x] Gemini CLI (pacman)
         [x] GitHub CLI (pacman: github-cli)
+        [x] Node Version Manager (fisher + nvm.fish)
     [x] Setup SSH Configs
     [ ] Install Custom Git toolkit (Grimoire of Time)
     [x] Set up SSHFS mount Directory
     [x] Set up Systemd mount (extracted to separate file)
 
 [ ] Upgrade The Ritual into a CLI
+
+## Next Tightening Steps
+
+[x] Move command implementations from `ritual.sh` into `lib/` modules
+[ ] Add argument parsing for flags like `--config`, `--dry-run`, and `--profile`
+[ ] Add a `ritual repo clone` command to replace the fish-only wrapper
+[ ] Add a `ritual doctor --fix` flow for deterministic remediation
+[ ] Add tests for config rendering and doctor checks
