@@ -1,12 +1,13 @@
 [Unit]
 Description=SSHFS Mount for Mac AirDrop
 After=network-online.target
+Wants=network-online.target
 
 [Mount]
 What=macbridge:/Users/REPLACE_MAC_USER/AirDropInbox
-Where=/mnt/mac_airdrop
+Where=%h/mnt/mac_airdrop
 Type=fuse.sshfs
-Options=_netdev,reconnect
+Options=_netdev,reconnect,IdentityFile=%h/.ssh/id_ed25519,ServerAliveInterval=15,ServerAliveCountMax=3
 
 [Install]
 WantedBy=default.target

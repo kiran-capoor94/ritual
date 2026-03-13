@@ -1,0 +1,29 @@
+[mac]
+host_alias = "macbridge"
+hostname = "REPLACE_WITH_MAC_TAILSCALE_IP"
+user = "REPLACE_MAC_USER"
+identity_file = "~/.ssh/id_ed25519"
+airdrop_path = "/Users/REPLACE_MAC_USER/AirDropInbox"
+
+[mount]
+dir = "~/mnt/mac_airdrop"
+
+[github.personal]
+host = "github-personal"
+key = "~/.ssh/id_ed25519_personal"
+
+[github.work]
+host = "github-work"
+key = "~/.ssh/id_ed25519_work"
+
+[identity.personal]
+name = "Kiran Capoor"
+email = "kiran.capoor94@gmail.com"
+
+[identity.work]
+name = "Kiran Capoor"
+email = "kiran.capoor@sisuhealth.co.uk"
+
+[repos]
+personal_dir = "~/Documents/repos/personal"
+work_dir = "~/Documents/repos/work"
