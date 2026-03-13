@@ -18,7 +18,12 @@ source "$SCRIPT_DIR/lib/doctor.sh"
 source "$SCRIPT_DIR/lib/render.sh"
 
 ritual_usage() {
-  cat <<'EOF'
+  local version
+  version=$(git -C "$SCRIPT_DIR" describe --tags --always 2>/dev/null || echo "dev")
+
+  cat <<EOF
+ritual $version
+
 Usage: bash ritual.sh <command>
 
 Commands:
