@@ -25,13 +25,12 @@ Supported commands:
 
 - `ritual.sh` — main bootstrap entrypoint; copies files from subdirectories into their system locations
 - `clipper/` — clipboard bridge scripts (`clip-push.sh`, `clip-pull.sh`) using `wl-clipboard` + SSH to Mac
-- `gh/` — fish shell function (`clone.fish`) for cloning repos with per-account git identity (personal/work)
 - `seer/` — fish-first Git workflow toolkit (`seer summary`, `recent`, `switch`, `pull`, `push`)
 - `ssh/` — SSH config template with placeholders for Mac Tailscale IP and GitHub multi-account hosts
 
 ## Repository Layout
 
-- All scripts are bash except the fish toolkit in `gh/` and `seer/`.
+- All scripts are bash except the fish toolkit in `seer/`.
 - The clipboard scripts depend on `wl-clipboard` (Wayland) and an SSH host alias `macbridge`.
 - There is a bug in `ritual.sh`: line 80 copies `clip-pull.sh` as `clip-push` (should copy `clip-push.sh`).
 - SSH config contains `REPLACE_*` placeholders that must be manually edited after bootstrap.

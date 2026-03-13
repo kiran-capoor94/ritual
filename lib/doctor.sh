@@ -30,7 +30,7 @@ ritual_run_doctor() {
   ritual_doctor_check "ritual-config installed" "test -x \"$RITUAL_RUNTIME_BIN_DIR/ritual-config\""
   ritual_doctor_check "clipboard push script installed" "test -x \"$RITUAL_RUNTIME_BIN_DIR/clip-push\""
   ritual_doctor_check "clipboard pull script installed" "test -x \"$RITUAL_RUNTIME_BIN_DIR/clip-pull\""
-  ritual_doctor_check "fish clone function installed" "test -f \"$HOME/.config/fish/functions/gh-clone.fish\""
+  ritual_doctor_check "seer fish toolkit installed" "test -f \"$HOME/.config/fish/functions/seer.fish\""
   ritual_doctor_check "runtime config installed" "test -f \"$RITUAL_RUNTIME_CONFIG_FILE\""
   ritual_doctor_check "runtime config loader installed" "test -f \"$RITUAL_RUNTIME_CONFIG_LIB\""
   ritual_doctor_check "managed ssh config installed" "test -f \"$HOME/.ssh/config.d/ritual.conf\""

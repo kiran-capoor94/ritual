@@ -36,9 +36,9 @@ ritual_install_runtime_bin() {
   install -m 0755 "$RITUAL_SCRIPT_DIR/clipper/clip-pull.sh" "$RITUAL_RUNTIME_BIN_DIR/clip-pull"
 }
 
-ritual_install_fish_function() {
-  ritual_log "Installing gh-clone fish function"
-  install -m 0644 "$RITUAL_SCRIPT_DIR/gh/clone.fish" "$HOME/.config/fish/functions/gh-clone.fish"
+ritual_install_fish_toolkit() {
+  ritual_log "Installing seer fish toolkit"
+  install -m 0644 "$RITUAL_SCRIPT_DIR/seer/"*.fish "$HOME/.config/fish/functions/"
 }
 
 ritual_install_ssh_config() {
@@ -72,7 +72,7 @@ ritual_run_configure() {
   ritual_install_runtime_config
   ritual_install_runtime_lib
   ritual_install_runtime_bin
-  ritual_install_fish_function
+  ritual_install_fish_toolkit
   ritual_install_ssh_config
   ritual_install_mount_unit
   ritual_bootstrap_lazyvim

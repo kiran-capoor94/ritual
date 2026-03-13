@@ -16,15 +16,12 @@ RITUAL_PACKAGES=(
   curl
   unzip
   rpmextract
-  aws-cli
   neovim
   github-cli
   visual-studio-code-bin
   docker-desktop
-  aider-chat
   google-antigravity
   claude-code
-  opencode
   gemini-cli
   fish-nvm
 )
@@ -73,6 +70,30 @@ ritual_install_packages() {
 
   ritual_log "Installing required packages"
   yay -S --needed --noconfirm "${RITUAL_PACKAGES[@]}"
+  ritual_install_package_choice "AWS CLI" aws-cli-v2 aws-cli
+  ritual_install_package_choice "OpenCode" opencode opencode-bin
+}
+
+ritual_package_installed() {
+  local package_name=$1
+  pacman -Q "$package_name" >/dev/null 2>&1
+}
+
+ritual_install_package_choice() {
+  local label=$1
+  local preferred_package=$2
+  shift 2
+
+  local package_name
+  for package_name in "$preferred_package" "$@"; do
+    if ritual_package_installed "$package_name"; then
+      ritual_log "$label already satisfied by $package_name"
+      return
+    fi
+  done
+
+  ritual_log "Installing $label via $preferred_package"
+  yay -S --needed --noconfirm "$preferred_package"
 }
 
 ritual_install_tailscale() {
