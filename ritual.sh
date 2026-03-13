@@ -121,6 +121,7 @@ chmod +x ~/.local/bin/clip-pull
 echo "Installing gitter clone fish function..."
 
 cp ./gh/clone.fish ~/.config/fish/functions/gh-clone.fish
+cp ./seer/*.fish ~/.config/fish/functions/
 
 #########################################################
 # SSH CONFIG TEMPLATE

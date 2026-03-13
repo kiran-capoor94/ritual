@@ -1,5 +1,18 @@
 # Ritual
 
+## Fish Toolkit
+
+Ritual now includes `seer`, a fish-first Git wrapper for everyday local workflows:
+
+- `seer summary`
+- `seer recent repos`
+- `seer recent branches`
+- `seer switch <branch>`
+- `seer pull`
+- `seer push`
+
+The bootstrap installs the `seer` fish functions into `~/.config/fish/functions`.
+
 Below is a **complete technical runbook** for everything we set up in this session.
 It’s written as if you were onboarding a new machine or documenting your environment.
 
