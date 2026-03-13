@@ -166,6 +166,19 @@ echo "Bootstrapping Lazyvim configuration..."
 bash ./install-scripts/install-lazyvim.sh
 
 #########################################################
+# SOFTWARE ENGINEERING TOOLS - PYTHON TOOLS
+#########################################################
+
+echo "Installing Python-based development tools..."
+
+# Aider is already installed via AUR (aider-ai), but can also be pip-installed
+pip install --user aider-ai
+
+bash ./install-scripts/install-gemini-cli.sh
+
+echo "Python tools installed."
+
+#########################################################
 # FINAL OUTPUT
 #########################################################
 
