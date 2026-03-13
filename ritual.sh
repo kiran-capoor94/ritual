@@ -181,63 +181,50 @@ export NVM_HOME="$HOME/.local/share/nvm"
 [ -s "$NVM_HOME/nvm.sh" ] && . "$NVM_HOME/nvm.sh"
 [ -s "$NVM_HOME/bash_completion" ] && . "$NVM_HOME/bash_completion"
 EOF
-fi
+}
 
-# Set up nvm for zsh
-if ! grep -q "NVM_HOME" ~/.zshrc 2>/dev/null; then
-  echo "Configuring nvm for zsh..."
-  cat >> ~/.zshrc <<'EOF'
-# Node Version Manager
-export NVM_HOME="$HOME/.local/share/nvm"
-[ -s "$NVM_HOME/nvm.sh" ] && . "$NVM_HOME/nvm.sh"
-[ -s "$NVM_HOME/zsh_completion" ] && . "$NVM_HOME/zsh_completion"
+ritual_bootstrap() {
+  ritual_run_install
+  ritual_run_configure
+  ritual_run_doctor
+
+  cat <<EOF
+
+Next manual steps:
+1. Run: tailscale up
+2. Edit $RITUAL_SOURCE_CONFIG_FILE if placeholders remain
+3. Generate SSH keys if they do not exist
+4. Upload SSH keys to GitHub accounts
+5. Enable the mount:
+   systemctl --user enable $(ritual_mount_unit_name)
+   systemctl --user start $(ritual_mount_unit_name)
 EOF
-fi
+}
 
-echo "Shell environment configured."
+main() {
+  local command=${1:-help}
 
-#########################################################
-# SOFTWARE ENGINEERING TOOLS - LAZYVIM
-#########################################################
+  case "$command" in
+    bootstrap)
+      ritual_bootstrap
+      ;;
+    install)
+      ritual_run_install
+      ;;
+    configure)
+      ritual_run_configure
+      ;;
+    doctor)
+      ritual_run_doctor
+      ;;
+    help|-h|--help)
+      ritual_usage
+      ;;
+    *)
+      ritual_usage
+      ritual_die "unknown command: $command"
+      ;;
+  esac
+}
 
-echo "Bootstrapping Lazyvim configuration..."
-
-bash ./install-scripts/install-lazyvim.sh
-
-#########################################################
-# SOFTWARE ENGINEERING TOOLS - CLAUDE DESKTOP
-#########################################################
-
-echo "Attempting to install Claude Desktop..."
-
-# Claude Desktop availability on Linux is limited
-# Try AUR first if available, otherwise skip with message
-if yay -S claude-desktop --noconfirm 2>/dev/null; then
-  echo "Claude Desktop installed from AUR."
-else
-  echo "Claude Desktop not available in AUR."
-  echo "Please download from: https://claude.ai/download"
-fi
-
-#########################################################
-# FINAL OUTPUT
-#########################################################
-
-echo ""
-echo "Bootstrap complete."
-echo ""
-echo "Next manual steps:"
-echo ""
-echo "1. Run: tailscale up"
-echo "2. Replace placeholders in ~/.ssh/config"
-echo "3. Generate SSH keys:"
-echo "   ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_personal"
-echo "   ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_work"
-echo ""
-echo "4. Upload SSH keys to GitHub accounts"
-echo ""
-echo "5. Enable mount:"
-echo "   systemctl --user enable mnt-mac_airdrop.mount"
-echo "   systemctl --user start mnt-mac_airdrop.mount"
-echo ""
-echo "Environment ready."
+main "$@"
