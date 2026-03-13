@@ -1,29 +1,49 @@
+# ritual.toml — Configuration for the ritual bootstrap CLI.
+# Copy this file to ritual.toml and fill in your values before running:
+#   bash ritual.sh configure
+
 [mac]
+# SSH host alias used by clipper scripts and SSH config (default: macbridge)
 host_alias = "macbridge"
+# Tailscale IP address of your Mac (run `tailscale ip` on the Mac to find this)
 hostname = "REPLACE_WITH_MAC_TAILSCALE_IP"
+# Your macOS username (run `whoami` on the Mac)
 user = "REPLACE_MAC_USER"
+# Path to the SSH private key used to connect to your Mac
 identity_file = "~/.ssh/id_ed25519"
+# Path on your Mac where AirDrop files land (defaults to ~/AirDropInbox if omitted)
 airdrop_path = "/Users/REPLACE_MAC_USER/AirDropInbox"
 
 [mount]
+# Local directory where your Mac's AirDrop inbox is mounted via sshfs
 dir = "~/mnt/mac_airdrop"
 
 [github.personal]
+# SSH host alias for your personal GitHub account (matches Host in ~/.ssh/config)
 host = "github-personal"
+# Path to the SSH key for your personal GitHub account
 key = "~/.ssh/id_ed25519_personal"
 
 [github.work]
+# SSH host alias for your work GitHub account
 host = "github-work"
+# Path to the SSH key for your work GitHub account
 key = "~/.ssh/id_ed25519_work"
 
 [identity.personal]
-name = "Kiran Capoor"
-email = "kiran.capoor94@gmail.com"
+# Git author name for personal repos
+name = "Your Name"
+# Git author email for personal repos
+email = "you@example.com"
 
 [identity.work]
-name = "Kiran Capoor"
-email = "kiran.capoor@sisuhealth.co.uk"
+# Git author name for work repos
+name = "Your Name"
+# Git author email for work repos
+email = "you@work.example.com"
 
 [repos]
+# Directory where personal repos are cloned
 personal_dir = "~/Documents/repos/personal"
+# Directory where work repos are cloned
 work_dir = "~/Documents/repos/work"
