@@ -24,3 +24,11 @@
     [x] Set up Systemd mount (extracted to separate file)
 
 [ ] Upgrade The Ritual into a CLI
+
+## Next Tightening Steps
+
+[x] Move command implementations from `ritual.sh` into `lib/` modules
+[ ] Add argument parsing for flags like `--config`, `--dry-run`, and `--profile`
+[ ] Add a `ritual repo clone` command to replace the fish-only wrapper
+[ ] Add a `ritual doctor --fix` flow for deterministic remediation
+[ ] Add tests for config rendering and doctor checks

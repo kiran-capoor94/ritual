@@ -1,16 +1,16 @@
-# Personal GitHub
+# Example managed SSH fragment. `bash ritual.sh configure` renders a concrete
+# version into `~/.ssh/config.d/ritual.conf` from values in `ritual.toml`.
+
 Host github-personal
     HostName github.com
     User git
     IdentityFile ~/.ssh/id_ed25519_personal
 
-# Work GitHub
 Host github-work
     HostName github.com
     User git
     IdentityFile ~/.ssh/id_ed25519_work
 
-# Mac Continuity Bridge
 Host macbridge
     HostName REPLACE_WITH_MAC_TAILSCALE_IP
     User REPLACE_MAC_USER
@@ -18,4 +18,3 @@ Host macbridge
     ControlMaster auto
     ControlPath ~/.ssh/cm-%r@%h:%p
     ControlPersist 10m
-
