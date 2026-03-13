@@ -1,3 +1,4 @@
 .gitignore
 .plans
 .worktrees
+ritual.toml
