@@ -1,34 +1,17 @@
 # Ritual
 
-Ritual is an Arch-focused bootstrap toolkit for a Linux-first development environment that still bridges into the Apple ecosystem through a MacBook over Tailscale.
+## Fish Toolkit
 
-## Quick Start
+Ritual now includes `seer`, a fish-first Git wrapper for everyday local workflows:
 
-```bash
-cp ritual.toml.example ritual.toml
-$EDITOR ritual.toml
+- `seer summary`
+- `seer recent repos`
+- `seer recent branches`
+- `seer switch <branch>`
+- `seer pull`
+- `seer push`
 
-bash ritual.sh install
-bash ritual.sh configure
-bash ritual.sh doctor
-```
-
-Commands:
-
-- `bash ritual.sh bootstrap` runs the full flow
-- `bash ritual.sh install` installs packages and tooling
-- `bash ritual.sh configure` installs scripts and managed config
-- `bash ritual.sh doctor` verifies the environment wiring
-
-Key behavior:
-
-- SSH config is managed through `~/.ssh/config.d/ritual.conf`
-- local values come from `ritual.toml` and are installed to `~/.config/ritual/config.toml`
-- installed helpers use a shared TOML loader at `~/.local/share/ritual/config.sh`
-- the AirDrop mount defaults to `$HOME/mnt/mac_airdrop`
-- `gh-clone` and clipboard bridge scripts consume the same config file
-
----
+The bootstrap installs the `seer` fish functions into `~/.config/fish/functions`.
 
 Below is a **complete technical runbook** for everything we set up in this session.
 It’s written as if you were onboarding a new machine or documenting your environment.

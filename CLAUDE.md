@@ -4,7 +4,7 @@ This file provides guidance to Claude Code when working in this repository.
 
 ## What This Is
 
-Ritual is a shell-based bootstrap toolkit for an Arch/CachyOS development machine that bridges into the Apple ecosystem through a MacBook over Tailscale. It is being tightened into a proper command-oriented CLI foundation.
+Ritual is a bootstrap toolkit for setting up a Linux-first (CachyOS/Arch) development environment that bridges into the Apple ecosystem via a MacBook over Tailscale. It contains shell scripts, SSH config templates, clipboard bridge scripts, and fish shell tooling for Git workflows.
 
 ## Entrypoint
 
@@ -23,30 +23,16 @@ Supported commands:
 
 ## Configuration Model
 
-- Copy `ritual.toml.example` to `ritual.toml` and customize it.
-- Override the config path with `RITUAL_CONFIG=/path/to/config.toml`.
-- `configure` installs the active config to `~/.config/ritual/config.toml` for runtime helpers.
-- Managed SSH settings are rendered to `~/.ssh/config.d/ritual.conf`.
+- `ritual.sh` — main bootstrap entrypoint; copies files from subdirectories into their system locations
+- `clipper/` — clipboard bridge scripts (`clip-push.sh`, `clip-pull.sh`) using `wl-clipboard` + SSH to Mac
+- `gh/` — fish shell function (`clone.fish`) for cloning repos with per-account git identity (personal/work)
+- `seer/` — fish-first Git workflow toolkit (`seer summary`, `recent`, `switch`, `pull`, `push`)
+- `ssh/` — SSH config template with placeholders for Mac Tailscale IP and GitHub multi-account hosts
 
 ## Repository Layout
 
-- `ritual.sh` — command dispatcher and bootstrap implementation
-- `lib/install.sh` — install workflow
-- `lib/configure.sh` — configure workflow
-- `lib/doctor.sh` — doctor workflow
-- `lib/neovim.sh` — Neovim and LazyVim bootstrap
-- `lib/render.sh` — rendered artifact generation
-- `ritual.toml.example` — user-editable configuration template
-- `lib/config.sh` — shared TOML config loader for bash scripts
-- `bin/ritual-config` — runtime helper for reading config values
-- `clipper/` — clipboard bridge scripts
-- `gh/` — fish function for account-aware cloning
-- `ssh/` — example SSH fragment
-- `systemd/` — example mount unit
-
-## Notes
-
-- All executable scripts are bash except `gh/clone.fish`.
-- `doctor` is the fastest way to inspect whether the local machine is wired correctly.
-- Avoid reintroducing direct overwrites of `~/.ssh/config`; use managed fragments instead.
-- Keep `ritual.sh` thin; new behavior should usually land in `lib/`.
+- All scripts are bash except the fish toolkit in `gh/` and `seer/`.
+- The clipboard scripts depend on `wl-clipboard` (Wayland) and an SSH host alias `macbridge`.
+- There is a bug in `ritual.sh`: line 80 copies `clip-pull.sh` as `clip-push` (should copy `clip-push.sh`).
+- SSH config contains `REPLACE_*` placeholders that must be manually edited after bootstrap.
+- The systemd mount unit is written inline in `ritual.sh` (not sourced from a file).
