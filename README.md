@@ -1,103 +1,54 @@
 # Ritual
 
-An opinionated Arch Linux machine setup CLI to set it up in less than 10 mins.
+An opinionated Arch Linux machine setup CLI. Gets a CachyOS/Arch development machine ready in under 10 minutes, including a Tailscale bridge to a Mac.
 
-## What does it setup?
+## Prerequisites
 
-Well, I personally am tied deeply to the Apple ecosystem for loads of things. So the most important thing it does for me is that it creates a bridge between my Apple Macs and the Linux developer machine using Tailscale.
+- CachyOS or Arch Linux
+- `git` and `bash` installed
+- A `ritual.toml` configured (see [Configuration](#configuration))
 
-Other things that it does:
+## Install
 
-1. Sets up an Arch Linux to be ready for coding in 10 mins or less.
-2. Installs packages like neovim, VSCode, Claude Code CLI, etc.
-3. Links multiple Github accounts to ssh configs and enables them to setup new repos.
-4. A tiny git wrapper for fish shell, called `seer` that makes it easy for me to use git (i am lazy)
+    curl -fsSL https://raw.githubusercontent.com/kiran-capoor94/ritual/main/install.sh | bash
 
-and much more..
+This clones the repo to `~/.local/share/ritual` and runs `ritual.sh bootstrap`. Re-running updates to the latest version.
 
-## Post-Installation Setup
+To pin a version:
 
-After running `bash ritual.sh install` and `bash ritual.sh configure`, complete these manual authentication steps:
+    curl -fsSL https://raw.githubusercontent.com/kiran-capoor94/ritual/main/install.sh | RITUAL_VERSION=v1.0.0 bash
 
-### Node Version Manager (nvm)
+## Configuration
 
-nvm is installed via fisher (fish shell) with bash/zsh configuration added.
+Before running `configure` or `bootstrap`, copy the example config and fill in your values:
 
-**Fish shell:**
-nvm.fish is automatically installed and available.
+    cp ritual.toml.example ritual.toml
+    $EDITOR ritual.toml
 
-**Bash/Zsh:**
-Add to `~/.bashrc` or `~/.zshrc` if not already present. `ritual.sh install` adds this automatically:
+Every key is documented inline in `ritual.toml.example`. At minimum, set `[mac] hostname` to your Mac's Tailscale IP and `[mac] user` to your macOS username.
 
-```bash
-export NVM_HOME="$HOME/.local/share/nvm"
-[ -s "$NVM_HOME/nvm.sh" ] && . "$NVM_HOME/nvm.sh"
-```
+Override the config location with:
 
-Install a Node version:
+    RITUAL_CONFIG=/path/to/custom.toml bash ritual.sh configure
 
-```bash
-nvm install --latest-lts
-nvm use --latest-lts
-```
+## What bootstrap does
 
-### Installed CLI Tools (via yay)
+1. **install** — installs `yay`, system packages, Tailscale, AWS Session Manager plugin, and `nvm` via fisher
+2. **configure** — writes SSH config, installs clipboard bridge scripts, seer fish toolkit, and a systemd mount unit for your Mac's AirDrop inbox
+3. **doctor** — verifies everything is wired correctly
 
-All of the following tools are installed during `bash ritual.sh install`:
+After bootstrap, complete these manual steps:
 
-#### Claude Code CLI
+1. `tailscale up`
+2. Generate SSH keys if they don't exist and upload them to GitHub
+3. Start the mount unit: `systemctl --user enable --now <unit-name>`
 
-```bash
-claude-code auth
-```
+## Commands
 
-#### OpenCode
-
-Refer to [OpenCode documentation](https://github.com/replit/replit-cli) for usage.
-
-#### Gemini CLI
-
-```bash
-gemini auth
-```
-
-#### GitHub CLI
-
-```bash
-gh auth login
-```
-
-### VSCode Extensions
-
-1. Open VSCode
-2. Install recommended extensions:
-   - GitHub Copilot
-   - Claude extension (if available)
-   - Aider integration
-   - Neovim integration (for Neovim users)
-
-### Lazyvim First Launch
-
-Run `nvim` to complete Lazyvim initialization:
-
-```bash
-nvim
-```
-
-Lazyvim will download plugins and complete setup on first launch.
-
-### AWS Session Manager Plugin
-
-The AWS Session Manager plugin was installed during bootstrap. Test with:
-
-```bash
-session-manager-plugin --version
-```
-
-### Ritual Health Check
-
-Validate the setup with:
-
-```bash
-bash ritual.sh doctor
-```
+| Command | Description |
+|---------|-------------|
+| `bash ritual.sh bootstrap` | Run install → configure → doctor |
+| `bash ritual.sh install` | Install packages and tooling |
+| `bash ritual.sh configure` | Install scripts and managed config |
+| `bash ritual.sh doctor` | Verify the environment |
+| `bash ritual.sh help` | Show help and version |
