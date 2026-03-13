@@ -179,6 +179,21 @@ bash ./install-scripts/install-gemini-cli.sh
 echo "Python tools installed."
 
 #########################################################
+# SOFTWARE ENGINEERING TOOLS - CLAUDE DESKTOP
+#########################################################
+
+echo "Attempting to install Claude Desktop..."
+
+# Claude Desktop availability on Linux is limited
+# Try AUR first if available, otherwise skip with message
+if yay -S claude-desktop --noconfirm 2>/dev/null; then
+  echo "Claude Desktop installed from AUR."
+else
+  echo "Claude Desktop not available in AUR."
+  echo "Please download from: https://claude.ai/download"
+fi
+
+#########################################################
 # FINAL OUTPUT
 #########################################################
 
