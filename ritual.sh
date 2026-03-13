@@ -158,6 +158,14 @@ echo "Installing npm-based AI and dev tools..."
 bash ./install-scripts/install-ai-tools.sh
 
 #########################################################
+# SOFTWARE ENGINEERING TOOLS - LAZYVIM
+#########################################################
+
+echo "Bootstrapping Lazyvim configuration..."
+
+bash ./install-scripts/install-lazyvim.sh
+
+#########################################################
 # FINAL OUTPUT
 #########################################################
 
