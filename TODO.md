@@ -24,3 +24,5 @@
     [x] Set up Systemd mount (extracted to separate file)
 
 [ ] Upgrade The Ritual into a CLI
+
+[ ] Expand `seer` with clone/context helpers and smarter recent-repo navigation
