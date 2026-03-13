@@ -7,7 +7,8 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/common.sh"
 
 ritual_bootstrap_lazyvim() {
   local nvim_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
-  local backup_dir="${nvim_config_dir}.backup.$(date +%s)"
+  local backup_dir
+  backup_dir="${nvim_config_dir}.backup.$(date +%s)"
 
   ritual_log "Bootstrapping LazyVim"
 

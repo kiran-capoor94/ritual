@@ -21,8 +21,8 @@ ritual_expand_home() {
   local value=$1
   case "$value" in
     "~") printf '%s\n' "$HOME" ;;
-    "~/"*) printf '%s/%s\n' "$HOME" "${value#"~/"}" ;;
-    *) printf '%s\n' "$value" ;;
+    ~/*)  printf '%s/%s\n' "$HOME" "${value#"~/"}" ;;
+    *)    printf '%s\n' "$value" ;;
   esac
 }
 
