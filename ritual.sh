@@ -64,8 +64,12 @@ yay -Syy --noconfirm \
   github-cli \
   visual-studio-code-bin \
   docker-desktop \
-  aider-ai \
-  google-antigravity
+  aider-chat \
+  google-antigravity \
+  claude-code \
+  opencode \
+  gemini-cli \
+  fish-nvm
 
 #########################################################
 # ENABLE TAILSCALE
@@ -150,12 +154,46 @@ cp ./systemd/mnt-mac_airdrop.mount ~/.config/systemd/user/mnt-mac_airdrop.mount
 systemctl --user daemon-reload
 
 #########################################################
-# SOFTWARE ENGINEERING TOOLS - NPM-BASED CLIs
+# NODE VERSION MANAGER & SHELL SETUP
 #########################################################
 
-echo "Installing npm-based AI and dev tools..."
+echo "Setting up Node Version Manager and shell environments..."
 
-bash ./install-scripts/install-ai-tools.sh
+# Install fisher if not already installed
+if ! command -v fisher &> /dev/null; then
+  echo "Installing fisher (fish shell package manager)..."
+  curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+fi
+
+# Install nvm.fish via fisher
+if [ -d ~/.config/fish/conf.d ]; then
+  echo "Installing nvm.fish via fisher..."
+  fisher install jorgebucaran/nvm.fish
+fi
+
+# Set up nvm for bash
+if ! grep -q "NVM_HOME" ~/.bashrc 2>/dev/null; then
+  echo "Configuring nvm for bash..."
+  cat >> ~/.bashrc <<'EOF'
+# Node Version Manager
+export NVM_HOME="$HOME/.local/share/nvm"
+[ -s "$NVM_HOME/nvm.sh" ] && . "$NVM_HOME/nvm.sh"
+[ -s "$NVM_HOME/bash_completion" ] && . "$NVM_HOME/bash_completion"
+EOF
+fi
+
+# Set up nvm for zsh
+if ! grep -q "NVM_HOME" ~/.zshrc 2>/dev/null; then
+  echo "Configuring nvm for zsh..."
+  cat >> ~/.zshrc <<'EOF'
+# Node Version Manager
+export NVM_HOME="$HOME/.local/share/nvm"
+[ -s "$NVM_HOME/nvm.sh" ] && . "$NVM_HOME/nvm.sh"
+[ -s "$NVM_HOME/zsh_completion" ] && . "$NVM_HOME/zsh_completion"
+EOF
+fi
+
+echo "Shell environment configured."
 
 #########################################################
 # SOFTWARE ENGINEERING TOOLS - LAZYVIM
@@ -164,19 +202,6 @@ bash ./install-scripts/install-ai-tools.sh
 echo "Bootstrapping Lazyvim configuration..."
 
 bash ./install-scripts/install-lazyvim.sh
-
-#########################################################
-# SOFTWARE ENGINEERING TOOLS - PYTHON TOOLS
-#########################################################
-
-echo "Installing Python-based development tools..."
-
-# Aider is already installed via AUR (aider-ai), but can also be pip-installed
-pip install --user aider-ai
-
-bash ./install-scripts/install-gemini-cli.sh
-
-echo "Python tools installed."
 
 #########################################################
 # SOFTWARE ENGINEERING TOOLS - CLAUDE DESKTOP

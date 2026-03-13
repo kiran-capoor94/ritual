@@ -2,38 +2,62 @@
 
 After running `ritual.sh`, complete these manual authentication steps:
 
-## Claude Desktop
-1. Open Claude Desktop application (if successfully installed)
-2. Sign in with your Anthropic account
-3. Configure workspace if needed
+## Node Version Manager (nvm)
 
-## Claude Code CLI
+nvm is installed via fisher (fish shell) with bash/zsh configuration added.
+
+**Fish shell:**
+nvm.fish is automatically installed and available.
+
+**Bash/Zsh:**
+Add to `~/.bashrc` or `~/.zshrc` if not already present (script adds automatically):
+```bash
+export NVM_HOME="$HOME/.local/share/nvm"
+[ -s "$NVM_HOME/nvm.sh" ] && . "$NVM_HOME/nvm.sh"
+```
+
+Install a Node version:
+```bash
+nvm install --latest-lts
+nvm use --latest-lts
+```
+
+## Installed CLI Tools (via yay)
+
+All of the following tools were installed during bootstrap:
+
+### Claude Code CLI
 ```bash
 claude-code auth
 ```
 
-## GitHub Copilot CLI
-```bash
-github-copilot-cli auth
-```
+### OpenCode
+Refer to [OpenCode documentation](https://github.com/replit/replit-cli) for usage.
 
-## Google Gemini CLI
-```bash
-gemini auth
-```
-
-## Aider Chat
+### Aider Chat
 ```bash
 aider --auth
 ```
 
-## OpenCode
-Refer to OpenCode documentation for authentication.
+### Gemini CLI
+```bash
+gemini auth
+```
 
-## Codex CLI
-Refer to Codex CLI documentation for authentication.
+### GitHub CLI
+```bash
+gh auth login
+```
+
+## Unavailable Tools
+
+The following tools are not available in the AUR and were **not installed**:
+- **Codex CLI** — not available in any Linux repository
+- **GitHub Copilot CLI** — no official Linux version
+- **Claude Desktop** — not available for Linux
 
 ## VSCode Extensions
+
 1. Open VSCode
 2. Install recommended extensions:
    - GitHub Copilot
@@ -42,14 +66,19 @@ Refer to Codex CLI documentation for authentication.
    - Neovim integration (for Neovim users)
 
 ## Lazyvim First Launch
+
 Run `nvim` to complete Lazyvim initialization:
+
 ```bash
 nvim
 ```
+
 Lazyvim will download plugins and complete setup on first launch.
 
 ## AWS Session Manager Plugin
+
 The AWS Session Manager plugin was installed during bootstrap. Test with:
+
 ```bash
 session-manager-plugin --version
 ```
