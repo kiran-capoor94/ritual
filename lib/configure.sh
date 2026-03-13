@@ -60,10 +60,19 @@ ritual_install_ssh_config() {
 ritual_install_mount_unit() {
   ritual_require_command systemd-escape
 
-  ritual_log "Installing systemd mount unit"
   local unit_name
   unit_name=$(ritual_mount_unit_name)
-  ritual_render_mount_unit >"$HOME/.config/systemd/user/$unit_name"
+  local unit_file="$HOME/.config/systemd/user/$unit_name"
+  local rendered
+  rendered=$(ritual_render_mount_unit)
+
+  if [[ -f "$unit_file" ]] && [[ "$(cat "$unit_file")" == "$rendered" ]]; then
+    ritual_log "Systemd mount unit already up to date"
+    return
+  fi
+
+  ritual_log "Installing systemd mount unit"
+  printf '%s\n' "$rendered" >"$unit_file"
   systemctl --user daemon-reload
 }
 
