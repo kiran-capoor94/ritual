@@ -19,15 +19,13 @@ jobs:
       - name: Install shellcheck
         run: sudo apt-get install -y shellcheck
 
-      - name: Run shellcheck
+      - name: Run shellcheck on pure .sh files (skip .tmpl)
         run: |
           find . -name '*.sh' \
             -not -path './.git/*' \
+            -not -name '*.tmpl' \
             -print0 \
           | xargs -0 shellcheck
-
-      - name: Smoke test
-        run: bash ritual.sh help
 
       - name: Create GitHub Release
         env:

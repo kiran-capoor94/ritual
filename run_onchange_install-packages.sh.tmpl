@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# chezmoi:hash — this comment includes the package list so chezmoi detects
+# chezmoi:hash — these comments include the package lists so chezmoi detects
 # changes and re-runs the script when packages are added or removed.
 # Packages: {{ .packages.core | join ", " }}
+# Choice: {{ .packages.choice | toJson }}
 
 echo "[ritual] Installing packages..."
 yay -S --needed --noconfirm {{ .packages.core | join " " }}
