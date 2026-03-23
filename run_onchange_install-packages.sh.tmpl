@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# chezmoi:hash — this comment includes the package list so chezmoi detects
+# changes and re-runs the script when packages are added or removed.
+# Packages: {{ .packages.core | join ", " }}
+
+echo "[ritual] Installing packages..."
+yay -S --needed --noconfirm {{ .packages.core | join " " }}
+
+# Choice packages (check if any candidate already installed, else install preferred)
+{{ range $name, $candidates := .packages.choice }}
+choice_satisfied=false
+{{ range $candidates }}
+if pacman -Q {{ . }} &>/dev/null; then
+    choice_satisfied=true
+fi
+{{ end }}
+if ! $choice_satisfied; then
+{{ range $candidates }}
+    if ! $choice_satisfied && yay -S --needed --noconfirm {{ . }} 2>/dev/null; then
+        choice_satisfied=true
+    fi
+{{ end }}
+fi
+{{ end }}
