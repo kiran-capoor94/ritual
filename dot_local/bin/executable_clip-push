@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+content="$(wl-paste 2>/dev/null)" || { echo "Nothing on clipboard"; exit 1; }
+printf '%s' "$content" | ssh macbridge pbcopy
+notify-send "Clipboard" "Sent to Mac"
