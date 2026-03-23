@@ -37,7 +37,7 @@ dotfiles/
 ├── run_once_enable-tailscale.sh              # enable tailscaled service
 ├── run_once_ensure-directories.sh.tmpl       # create dirs not managed by chezmoi
 ├── run_once_setup-ssh-include.sh             # ensure Include directive in ~/.ssh/config
-├── run_after_doctor.sh                       # health checks
+├── run_after_doctor.sh.tmpl                  # health checks (templated for paths)
 ├── run_after_systemd-reload.sh               # daemon-reload after unit changes
 │
 ├── dot_ssh/
@@ -69,13 +69,15 @@ On `chezmoi init`, the user is prompted for all environment-specific values:
 
 These are stored in `~/.config/chezmoi/chezmoi.toml` and accessible in all templates via Go template syntax (e.g., `{{ .mac.hostname }}`).
 
+**Important**: File paths must be absolute (no `~`). Systemd and SSHFS do not expand tildes. The mount directory uses `{{ .chezmoi.homeDir }}` to resolve this automatically; SSH key paths are prompted as absolute paths.
+
 ```toml
 {{- $macHostname := promptString "Mac Tailscale hostname" -}}
 {{- $macUser := promptString "Mac username" -}}
-{{- $macIdentityFile := promptString "SSH key for Mac (e.g. ~/.ssh/id_ed25519)" -}}
+{{- $macIdentityFile := promptString "SSH key for Mac (absolute path, e.g. /home/you/.ssh/id_ed25519)" -}}
 {{- $macAirdropPath := promptString "Mac AirDrop path (e.g. /Users/you/Downloads)" -}}
-{{- $githubPersonalKey := promptString "SSH key for personal GitHub" -}}
-{{- $githubWorkKey := promptString "SSH key for work GitHub" -}}
+{{- $githubPersonalKey := promptString "SSH key for personal GitHub (absolute path)" -}}
+{{- $githubWorkKey := promptString "SSH key for work GitHub (absolute path)" -}}
 {{- $personalName := promptString "Personal git name" -}}
 {{- $personalEmail := promptString "Personal git email" -}}
 {{- $workName := promptString "Work git name" -}}
@@ -88,7 +90,7 @@ identity_file = {{ $macIdentityFile | quote }}
 airdrop_path = {{ $macAirdropPath | quote }}
 
 [data.mount]
-dir = "~/mnt/mac_airdrop"
+dir = "{{ .chezmoi.homeDir }}/mnt/mac_airdrop"
 
 [data.github.personal]
 host = "github-personal"
@@ -244,6 +246,8 @@ fi
 fish -c "fisher install jorgebucaran/nvm.fish"
 ```
 
+Note: The current ritual also appends NVM init blocks to `~/.bashrc` and `~/.zshrc` for the traditional shell-based NVM. This is intentionally dropped — the setup is fish-first, and `nvm.fish` handles Node version management within fish. Users needing NVM in bash/zsh can configure it separately.
+
 ### `run_once_ensure-directories.sh.tmpl` — Create Required Directories
 
 Creates directories that chezmoi doesn't manage implicitly (mount point, repo dirs).
@@ -306,9 +310,9 @@ Runs `systemctl --user daemon-reload` after every apply to pick up changes to th
 systemctl --user daemon-reload 2>/dev/null || true
 ```
 
-### `run_after_doctor.sh` — Health Checks
+### `run_after_doctor.sh.tmpl` — Health Checks
 
-Runs after every `chezmoi apply`. Verifies all expected files, commands, and services are in place.
+Runs after every `chezmoi apply`. Templated so paths are resolved from chezmoi data.
 
 ```bash
 #!/usr/bin/env bash
@@ -320,7 +324,7 @@ checks=(
     "test -x ~/.local/bin/clip-pull"
     "test -f ~/.ssh/config.d/ritual.conf"
     "test -f ~/.config/systemd/user/mnt-mac_airdrop.mount"
-    "test -d ~/mnt/mac_airdrop"
+    "test -d {{ .mount.dir }}"
     "ssh -o BatchMode=yes -o ConnectTimeout=5 macbridge true"
 )
 
