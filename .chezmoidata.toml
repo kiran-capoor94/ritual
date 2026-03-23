@@ -1,0 +1,15 @@
+[repos]
+personal = "~/Documents/repos/personal"
+work = "~/Documents/repos/work"
+
+[packages]
+core = [
+  "git", "fish", "tailscale", "sshfs", "wl-clipboard",
+  "curl", "unzip", "rpmextract", "neovim", "github-cli",
+  "visual-studio-code-bin", "docker-desktop", "google-antigravity",
+  "claude-code", "gemini-cli", "fish-nvm"
+]
+
+[packages.choice]
+aws = ["aws-cli-v2", "aws-cli"]
+opencode = ["opencode", "opencode-bin"]

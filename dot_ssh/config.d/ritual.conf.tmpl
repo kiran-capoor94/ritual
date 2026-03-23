@@ -1,0 +1,19 @@
+# Managed by chezmoi — do not edit manually
+
+Host {{ .github.personal.host }}
+    HostName github.com
+    User git
+    IdentityFile {{ .github.personal.key }}
+
+Host {{ .github.work.host }}
+    HostName github.com
+    User git
+    IdentityFile {{ .github.work.key }}
+
+Host macbridge
+    HostName {{ .mac.hostname }}
+    User {{ .mac.user }}
+    IdentityFile {{ .mac.identity_file }}
+    ControlMaster auto
+    ControlPath ~/.ssh/cm-%r@%h:%p
+    ControlPersist 10m

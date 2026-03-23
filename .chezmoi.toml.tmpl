@@ -1,0 +1,35 @@
+{{- $macHostname := promptString "Mac Tailscale hostname" -}}
+{{- $macUser := promptString "Mac username" -}}
+{{- $macIdentityFile := promptString "SSH key for Mac (absolute path, e.g. /home/you/.ssh/id_ed25519)" -}}
+{{- $macAirdropPath := promptString "Mac AirDrop path (e.g. /Users/you/Downloads)" -}}
+{{- $githubPersonalKey := promptString "SSH key for personal GitHub (absolute path)" -}}
+{{- $githubWorkKey := promptString "SSH key for work GitHub (absolute path)" -}}
+{{- $personalName := promptString "Personal git name" -}}
+{{- $personalEmail := promptString "Personal git email" -}}
+{{- $workName := promptString "Work git name" -}}
+{{- $workEmail := promptString "Work git email" -}}
+
+[data.mac]
+hostname = {{ $macHostname | quote }}
+user = {{ $macUser | quote }}
+identity_file = {{ $macIdentityFile | quote }}
+airdrop_path = {{ $macAirdropPath | quote }}
+
+[data.mount]
+dir = "{{ .chezmoi.homeDir }}/mnt/mac_airdrop"
+
+[data.github.personal]
+host = "github-personal"
+key = {{ $githubPersonalKey | quote }}
+
+[data.github.work]
+host = "github-work"
+key = {{ $githubWorkKey | quote }}
+
+[data.identity.personal]
+name = {{ $personalName | quote }}
+email = {{ $personalEmail | quote }}
+
+[data.identity.work]
+name = {{ $workName | quote }}
+email = {{ $workEmail | quote }}

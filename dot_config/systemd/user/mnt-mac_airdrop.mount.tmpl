@@ -1,0 +1,15 @@
+# Managed by chezmoi — do not edit manually
+
+[Unit]
+Description=SSHFS Mount for Mac AirDrop
+After=network-online.target
+Wants=network-online.target
+
+[Mount]
+What=macbridge:{{ .mac.airdrop_path }}
+Where={{ .mount.dir }}
+Type=fuse.sshfs
+Options=_netdev,reconnect,IdentityFile={{ .mac.identity_file }},ServerAliveInterval=15,ServerAliveCountMax=3
+
+[Install]
+WantedBy=default.target

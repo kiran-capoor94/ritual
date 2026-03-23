@@ -1,54 +1,89 @@
 # Ritual
 
-An opinionated Arch Linux machine setup CLI. Gets a CachyOS/Arch development machine ready in under 10 minutes, including a Tailscale bridge to a Mac.
+Chezmoi-managed dotfiles for a CachyOS/Arch development machine with a Tailscale bridge to a Mac.
 
 ## Prerequisites
 
 - CachyOS or Arch Linux
-- `git` and `bash` installed
-- A `ritual.toml` configured (see [Configuration](#configuration))
+- `curl` installed
 
 ## Install
 
-    curl -fsSL https://raw.githubusercontent.com/kiran-capoor94/ritual/main/install.sh | bash
+```bash
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply kiran-capoor94/ritual
+```
 
-This clones the repo to `~/.local/share/ritual` and runs `ritual.sh bootstrap`. Re-running updates to the latest version.
+On first run, you'll be prompted for:
 
-To pin a version:
+- Mac Tailscale hostname and username
+- SSH key paths (absolute paths for Mac, personal GitHub, work GitHub)
+- Git identity (name and email for personal and work)
 
-    curl -fsSL https://raw.githubusercontent.com/kiran-capoor94/ritual/main/install.sh | RITUAL_VERSION=v1.0.0 bash
+Config is stored at `~/.config/chezmoi/chezmoi.toml`. Re-run `chezmoi init` to change values.
 
-## Configuration
+## What Gets Set Up
 
-Before running `configure` or `bootstrap`, copy the example config and fill in your values:
+| Component | Description |
+|-----------|-------------|
+| **Packages** | 16 core packages via yay (fish, neovim, tailscale, docker, etc.) |
+| **SSH config** | Multi-account GitHub hosts + macbridge connection pooling |
+| **Clipboard bridge** | `clip-push` / `clip-pull` for syncing clipboard with Mac via SSH |
+| **SSHFS mount** | Systemd user unit for mounting Mac's AirDrop inbox |
+| **Fisher + nvm.fish** | Fish plugin manager and Node version management |
+| **LazyVim** | Neovim starter config |
+| **Tailscale** | Service enabled on install |
+| **AWS Session Manager** | Plugin for SSM connections |
+| **Directories** | `~/Documents/repos/{personal,work}`, `~/mnt/mac_airdrop` |
 
-    cp ritual.toml.example ritual.toml
-    $EDITOR ritual.toml
+## Repository Layout
 
-Every key is documented inline in `ritual.toml.example`. At minimum, set `[mac] hostname` to your Mac's Tailscale IP and `[mac] user` to your macOS username.
+```
+.chezmoi.toml.tmpl              # interactive config prompts
+.chezmoidata.toml               # package lists and defaults
 
-Override the config location with:
+dot_ssh/config.d/               # ~/.ssh/config.d/
+dot_config/systemd/user/        # ~/.config/systemd/user/
+dot_local/bin/                  # ~/.local/bin/
 
-    RITUAL_CONFIG=/path/to/custom.toml bash ritual.sh configure
+run_once_install-yay.sh         # bootstrap yay (once)
+run_once_install-fisher-nvm.sh  # fisher + nvm.fish (once)
+run_once_install-lazyvim.sh     # lazyvim starter (once)
+run_once_install-session-manager.sh
+run_once_enable-tailscale.sh
+run_once_ensure-directories.sh.tmpl
+run_once_setup-ssh-include.sh
 
-## What bootstrap does
+run_onchange_install-packages.sh.tmpl  # re-runs when package list changes
 
-1. **install** — installs `yay`, system packages, Tailscale, AWS Session Manager plugin, and `nvm` via fisher
-2. **configure** — writes SSH config, installs clipboard bridge scripts, seer fish toolkit, and a systemd mount unit for your Mac's AirDrop inbox
-3. **doctor** — verifies everything is wired correctly
+run_after_doctor.sh.tmpl        # health checks (every apply)
+run_after_systemd-reload.sh     # daemon-reload (every apply)
+```
 
-After bootstrap, complete these manual steps:
+Files prefixed with `dot_` map to `~/.*`. The `.tmpl` suffix means the file uses Go templates with chezmoi data.
 
-1. `tailscale up`
-2. Generate SSH keys if they don't exist and upload them to GitHub
-3. Start the mount unit: `systemctl --user enable --now <unit-name>`
+## After Install
 
-## Commands
+1. Run `tailscale up` to authenticate
+2. Generate SSH keys if they don't exist and upload to GitHub
+3. Enable the mount: `systemctl --user enable --now mnt-mac_airdrop.mount`
 
-| Command | Description |
-|---------|-------------|
-| `bash ritual.sh bootstrap` | Run install → configure → doctor |
-| `bash ritual.sh install` | Install packages and tooling |
-| `bash ritual.sh configure` | Install scripts and managed config |
-| `bash ritual.sh doctor` | Verify the environment |
-| `bash ritual.sh help` | Show help and version |
+## Day-to-Day
+
+```bash
+chezmoi update          # pull latest dotfiles and apply
+chezmoi diff            # preview what would change
+chezmoi apply           # re-apply without pulling
+chezmoi edit-config     # edit your local config values
+chezmoi data            # show current template data
+```
+
+## Drift Detection
+
+```bash
+chezmoi verify          # exit non-zero if anything has drifted
+chezmoi diff            # show exactly what drifted
+```
+
+## Adding Packages
+
+Edit `.chezmoidata.toml` and add to `packages.core`. On next `chezmoi apply`, the `run_onchange_install-packages.sh` script will detect the change and install the new packages via yay.
