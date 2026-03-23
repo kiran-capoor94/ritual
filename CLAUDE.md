@@ -4,34 +4,32 @@ This file provides guidance to Claude Code when working in this repository.
 
 ## What This Is
 
-Ritual is a bootstrap toolkit for setting up a Linux-first (CachyOS/Arch) development environment that bridges into the Apple ecosystem via a MacBook over Tailscale. It contains shell scripts, SSH config templates, clipboard bridge scripts, and fish shell tooling for Git workflows.
+Ritual is a chezmoi-managed dotfiles repository for setting up a CachyOS/Arch Linux development environment that bridges into the Apple ecosystem via a MacBook over Tailscale. It manages SSH config, clipboard bridge scripts, a systemd SSHFS mount, and package installation.
 
-## Entrypoint
-
-Use the repo root entrypoint:
+## Bootstrap
 
 ```bash
-bash ritual.sh help
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply <github-user>/dotfiles
 ```
-
-Supported commands:
-
-- `bootstrap`
-- `install`
-- `configure`
-- `doctor`
 
 ## Configuration Model
 
-- `ritual.sh` — main bootstrap entrypoint; copies files from subdirectories into their system locations
-- `clipper/` — clipboard bridge scripts (`clip-push.sh`, `clip-pull.sh`) using `wl-clipboard` + SSH to Mac
-- `seer/` — fish-first Git workflow toolkit (`seer summary`, `recent`, `switch`, `pull`, `push`)
-- `ssh/` — SSH config template with placeholders for Mac Tailscale IP and GitHub multi-account hosts
+- `.chezmoi.toml.tmpl` — interactive prompts on `chezmoi init` for Mac connection, GitHub SSH keys, and git identity
+- `.chezmoidata.toml` — default values and declarative package lists
+- `.chezmoiignore` — excludes docs/CI from deployment
 
 ## Repository Layout
 
-- All scripts are bash except the fish toolkit in `seer/`.
-- The clipboard scripts depend on `wl-clipboard` (Wayland) and an SSH host alias `macbridge`.
-- There is a bug in `ritual.sh`: line 80 copies `clip-pull.sh` as `clip-push` (should copy `clip-push.sh`).
-- SSH config contains `REPLACE_*` placeholders that must be manually edited after bootstrap.
-- The systemd mount unit is written inline in `ritual.sh` (not sourced from a file).
+- `dot_*` directories map to `~/.*` (chezmoi convention)
+- `run_once_*` scripts run once per machine (yay, fisher, lazyvim, session manager, tailscale, directories, SSH include)
+- `run_onchange_*` scripts re-run when their template output changes (package installation)
+- `run_after_*` scripts run after every `chezmoi apply` (doctor checks, systemd reload)
+- `.tmpl` suffix means the file uses Go template syntax with chezmoi data
+- `macbridge` is a fixed SSH alias convention used by clipper scripts and the mount unit
+
+## Key Commands
+
+- `chezmoi apply` — apply all managed files and run scripts
+- `chezmoi diff` — show what would change
+- `chezmoi data` — show current config values
+- `chezmoi update` — pull latest and apply
