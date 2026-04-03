@@ -8,9 +8,10 @@ core = [
   "curl", "unzip", "rpmextract", "neovim", "github-cli",
   "visual-studio-code-bin", "docker-desktop", "antigravity",
   "claude-code", "gemini-cli", "fish-nvm",
-  "ollama", "openai-codex", "qwen-code"
+  "ollama", "qwen-code"
 ]
 
 [packages.choice]
 aws = ["aws-cli-v2", "aws-cli"]
 opencode = ["opencode", "opencode-bin"]
+openai-codex = ["openai-codex", "openai-codex-bin"]
