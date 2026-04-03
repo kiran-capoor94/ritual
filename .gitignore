@@ -2,3 +2,4 @@
 .plans
 .worktrees
 ritual.toml
+bin/

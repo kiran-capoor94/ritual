@@ -23,17 +23,17 @@ Config is stored at `~/.config/chezmoi/chezmoi.toml`. Re-run `chezmoi init` to c
 
 ## What Gets Set Up
 
-| Component | Description |
-|-----------|-------------|
-| **Packages** | 16 core packages via yay (fish, neovim, tailscale, docker, etc.) |
-| **SSH config** | Multi-account GitHub hosts + macbridge connection pooling |
-| **Clipboard bridge** | `clip-push` / `clip-pull` for syncing clipboard with Mac via SSH |
-| **SSHFS mount** | Systemd user unit for mounting Mac's AirDrop inbox |
-| **Fisher + nvm.fish** | Fish plugin manager and Node version management |
-| **LazyVim** | Neovim starter config |
-| **Tailscale** | Service enabled on install |
-| **AWS Session Manager** | Plugin for SSM connections |
-| **Directories** | `~/Documents/repos/{personal,work}`, `~/mnt/mac_airdrop` |
+| Component               | Description                                                      |
+| ----------------------- | ---------------------------------------------------------------- |
+| **Packages**            | 16 core packages via yay (fish, neovim, tailscale, docker, etc.) |
+| **SSH config**          | Multi-account GitHub hosts + macbridge connection pooling        |
+| **Clipboard bridge**    | `clip-push` / `clip-pull` for syncing clipboard with Mac via SSH |
+| **SSHFS mount**         | Systemd user unit for mounting Mac's AirDrop inbox               |
+| **Fisher + nvm.fish**   | Fish plugin manager and Node version management                  |
+| **LazyVim**             | Neovim starter config                                            |
+| **Tailscale**           | Service enabled on install                                       |
+| **AWS Session Manager** | Plugin for SSM connections                                       |
+| **Directories**         | `~/Documents/repos/{personal,work}`, `~/mnt/mac_airdrop`         |
 
 ## Repository Layout
 
