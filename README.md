@@ -30,7 +30,7 @@ Config is stored at `~/.config/chezmoi/chezmoi.toml`. Re-run `chezmoi init` to c
 | **Clipboard bridge**    | `clip-push` / `clip-pull` for syncing clipboard with Mac via SSH |
 | **SSHFS mount**         | Systemd user unit for mounting Mac's AirDrop inbox               |
 | **Fisher + nvm.fish**   | Fish plugin manager and Node version management                  |
-| **LazyVim**             | Neovim starter config                                            |
+| **Neovim config**       | Custom config cloned from buildWithAlchemist/mad_enginner_nvim   |
 | **Tailscale**           | Service enabled on install                                       |
 | **AWS Session Manager** | Plugin for SSM connections                                       |
 | **Directories**         | `~/Documents/repos/{personal,work}`, `~/mnt/mac_airdrop`         |
@@ -47,7 +47,7 @@ dot_local/bin/                  # ~/.local/bin/
 
 run_once_install-yay.sh         # bootstrap yay (once)
 run_once_install-fisher-nvm.sh  # fisher + nvm.fish (once)
-run_once_install-lazyvim.sh     # lazyvim starter (once)
+run_once_setup-nvim.sh          # custom nvim config (once)
 run_once_install-session-manager.sh
 run_once_enable-tailscale.sh
 run_once_ensure-directories.sh.tmpl
