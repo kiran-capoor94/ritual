@@ -12,6 +12,9 @@ checks=(
     "test -f ~/.config/systemd/user/mnt-mac_airdrop.mount"
     "test -d {{ .mount.dir }}"
     "ssh -o BatchMode=yes -o ConnectTimeout=5 macbridge true"
+    "fish -c 'type -q fisher'"
+    "fish -c \"fisher list 2>/dev/null | grep -q 'jorgebucaran/nvm.fish'\""
+    "git -C ${XDG_CONFIG_HOME:-$HOME/.config}/nvim remote get-url origin 2>/dev/null | grep -qF 'git@github.com:buildWithAlchemist/mad_enginner_nvim.git'"
 )
 
 failed=0
