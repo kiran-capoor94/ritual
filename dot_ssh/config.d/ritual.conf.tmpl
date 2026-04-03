@@ -3,17 +3,17 @@
 Host {{ .github.personal.host }}
     HostName github.com
     User git
-    IdentityFile {{ .github.personal.key }}
+    {{ if .github.personal.key }}IdentityFile {{ .github.personal.key }}{{ end }}
 
 Host {{ .github.work.host }}
     HostName github.com
     User git
-    IdentityFile {{ .github.work.key }}
+    {{ if .github.work.key }}IdentityFile {{ .github.work.key }}{{ end }}
 
 Host macbridge
     HostName {{ .mac.hostname }}
     User {{ .mac.user }}
-    IdentityFile {{ .mac.identity_file }}
+    {{ if .mac.identity_file }}IdentityFile {{ .mac.identity_file }}{{ end }}
     ControlMaster auto
     ControlPath ~/.ssh/cm-%r@%h:%p
     ControlPersist 10m
