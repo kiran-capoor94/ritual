@@ -7,6 +7,10 @@ if ! fish -c "type -q fisher" 2>/dev/null; then
     fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
 fi
 
-# Install nvm.fish
-echo "[ritual] Installing nvm.fish"
-fish -c "fisher install jorgebucaran/nvm.fish"
+# Install nvm.fish if missing
+if ! fish -c "fisher list 2>/dev/null | grep -q 'jorgebucaran/nvm.fish'" 2>/dev/null; then
+    echo "[ritual] Installing nvm.fish"
+    fish -c "fisher install jorgebucaran/nvm.fish"
+else
+    echo "[ritual] nvm.fish already installed"
+fi
