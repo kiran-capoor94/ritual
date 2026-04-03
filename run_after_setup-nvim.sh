@@ -4,7 +4,7 @@ set -euo pipefail
 nvim_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 
 if [[ -d "$nvim_config_dir/.git" ]] && \
-    git -C "$nvim_config_dir" remote get-url origin 2>/dev/null | grep -qF 'git@github.com:buildWithAlchemist/mad_enginner_nvim.git'; then
+    git -C "$nvim_config_dir" remote get-url origin 2>/dev/null | grep -qF 'git@github-personal:buildWithAlchemist/mad_enginner_nvim.git'; then
     echo "[ritual] nvim config already installed"
     exit 0
 fi
@@ -16,5 +16,5 @@ if [[ -d "$nvim_config_dir" ]]; then
 fi
 
 echo "[ritual] Cloning nvim config"
-git clone git@github.com:buildWithAlchemist/mad_enginner_nvim.git "$nvim_config_dir"
+git clone git@github-personal:buildWithAlchemist/mad_enginner_nvim.git "$nvim_config_dir"
 echo "[ritual] nvim config installed."
