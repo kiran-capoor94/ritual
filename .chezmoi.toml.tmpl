@@ -2,7 +2,7 @@
 {{- $macUser := promptString "Mac username" "" -}}
 {{- $macIdentityFile := promptString "SSH key for Mac (absolute path, e.g. /home/you/.ssh/id_ed25519)" (printf "%s/.ssh/id_ed25519" .chezmoi.homeDir) -}}
 {{- $macAirdropPath := promptString "Mac AirDrop path (e.g. /Users/you/Downloads)" "" -}}
-{{- $githubPersonalKey := promptString "SSH key for personal GitHub (absolute path)" (printf "%s/.ssh/id_ed25519" .chezmoi.homeDir) -}}
+{{- $githubPersonalKey := promptString "SSH key for personal GitHub (absolute path)" (printf "%s/.ssh/id_ed25519_personal" .chezmoi.homeDir) -}}
 {{- $githubWorkKey := promptString "SSH key for work GitHub (absolute path)" (printf "%s/.ssh/id_ed25519_work" .chezmoi.homeDir) -}}
 {{- $personalName := promptString "Personal git name" -}}
 {{- $personalEmail := promptString "Personal git email" -}}
