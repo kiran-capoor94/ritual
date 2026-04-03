@@ -6,8 +6,9 @@ work = "~/Documents/repos/work"
 core = [
   "git", "fish", "tailscale", "sshfs", "wl-clipboard",
   "curl", "unzip", "rpmextract", "neovim", "github-cli",
-  "visual-studio-code-bin", "docker-desktop", "google-antigravity",
-  "claude-code", "gemini-cli", "fish-nvm"
+  "visual-studio-code-bin", "docker-desktop", "antigravity",
+  "claude-code", "gemini-cli", "fish-nvm",
+  "ollama", "openai-codex", "qwen-code"
 ]
 
 [packages.choice]
