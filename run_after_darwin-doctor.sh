@@ -11,7 +11,7 @@ checks=(
     "test -f $HOME/.ssh/config.d/ritual.conf"
     "git -C ${XDG_CONFIG_HOME:-$HOME/.config}/nvim remote get-url origin 2>/dev/null | grep -qF 'git@github-personal:buildWithAlchemist/wand.git'"
     "brew list --cask claude-code"
-    "brew list --cask docker-desktop"
+    "brew list --cask docker-desktop || test -d /Applications/Docker.app"
 )
 
 failed=0
