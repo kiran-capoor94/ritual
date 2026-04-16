@@ -5,3 +5,25 @@ LICENSE
 docs/
 .github/
 .plans/
+
+# Exclude Darwin-only scripts on Linux
+{{ if ne .chezmoi.os "darwin" }}
+run_once_darwin-*
+run_onchange_darwin-*
+run_after_darwin-*
+{{ end }}
+
+# Exclude Linux-only scripts and files on Mac
+{{ if eq .chezmoi.os "darwin" }}
+run_once_install-yay.sh
+run_once_enable-tailscale.sh
+run_once_install-session-manager.sh
+run_once_install-fisher-nvm.sh
+run_once_setup-ssh-include.sh
+run_once_ensure-directories.sh.tmpl
+run_onchange_install-packages.sh.tmpl
+run_after_systemd-reload.sh
+run_after_doctor.sh.tmpl
+dot_local/bin/executable_clip-*
+dot_config/systemd/
+{{ end }}
