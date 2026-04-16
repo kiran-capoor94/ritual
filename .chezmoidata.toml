@@ -15,3 +15,15 @@ core = [
 aws = ["aws-cli-v2", "aws-cli"]
 opencode = ["opencode", "opencode-bin"]
 openai-codex = ["openai-codex", "openai-codex-bin"]
+
+[packages.mac]
+core = [
+  "git", "fish", "gh", "neovim", "curl", "unzip",
+  "ollama", "gemini-cli", "opencode"
+]
+casks = [
+  "docker-desktop", "claude-code", "visual-studio-code"
+]
+
+[packages.mac.choice]
+aws = ["awscli"]
