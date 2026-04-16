@@ -8,7 +8,7 @@ core = [
   "curl", "unzip", "rpmextract", "neovim", "github-cli",
   "visual-studio-code-bin", "docker-desktop", "antigravity",
   "claude-code", "gemini-cli", "fish-nvm",
-  "ollama", "qwen-code"
+  "ollama", "qwen-code", "uv"
 ]
 
 [packages.choice]
@@ -19,7 +19,7 @@ openai-codex = ["openai-codex", "openai-codex-bin"]
 [packages.mac]
 core = [
   "git", "fish", "gh", "neovim", "curl", "unzip",
-  "ollama", "gemini-cli", "opencode"
+  "ollama", "gemini-cli", "opencode", "uv"
 ]
 casks = [
   "docker-desktop", "claude-code", "visual-studio-code"
