@@ -10,7 +10,13 @@ echo "[ritual] Installing brew formulae..."
 brew install {{ .packages.mac.core | join " " }}
 
 echo "[ritual] Installing brew casks..."
-brew install --cask {{ .packages.mac.casks | join " " }}
+{{ range .packages.mac.casks }}
+if brew list --cask {{ . }} &>/dev/null; then
+    echo "[ritual] cask {{ . }} already installed"
+else
+    brew install --cask {{ . }} || echo "[ritual] WARN: could not install cask {{ . }} (may already exist outside brew)"
+fi
+{{ end }}
 
 # Choice packages (check if any candidate already installed, else install preferred)
 {{ range $name, $candidates := .packages.mac.choice }}
