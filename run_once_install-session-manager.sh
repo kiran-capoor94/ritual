@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Linux-only: Linux RPM-based install, not applicable on macOS
+[[ "$(uname)" == "Darwin" ]] && exit 0
+
 if command -v session-manager-plugin >/dev/null 2>&1; then
     echo "[ritual] AWS Session Manager plugin already installed"
     exit 0
