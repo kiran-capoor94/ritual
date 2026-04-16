@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+dirs=(
+    "{{ .repos.personal }}"
+    "{{ .repos.work }}"
+)
+
+for dir in "${dirs[@]}"; do
+    expanded="${dir/#\~/$HOME}"
+    mkdir -p "$expanded"
+done
