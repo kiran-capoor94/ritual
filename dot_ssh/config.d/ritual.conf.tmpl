@@ -10,6 +10,7 @@ Host {{ .github.work.host }}
     User git
     {{ if .github.work.key }}IdentityFile {{ .github.work.key }}{{ end }}
 
+{{ if .mac.hostname }}
 Host macbridge
     HostName {{ .mac.hostname }}
     User {{ .mac.user }}
@@ -17,3 +18,4 @@ Host macbridge
     ControlMaster auto
     ControlPath ~/.ssh/cm-%r@%h:%p
     ControlPersist 10m
+{{ end }}
