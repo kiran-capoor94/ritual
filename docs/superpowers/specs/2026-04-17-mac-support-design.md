@@ -37,16 +37,19 @@ Extend the existing chezmoi dotfiles repo (currently Arch/CachyOS-only) to also 
 Managed in `.chezmoidata.toml` under `[packages.mac]`.
 
 **Formulae** (`brew install`):
+
 ```
 git, fish, gh, neovim, curl, unzip, ollama, gemini-cli, opencode
 ```
 
 **Casks** (`brew install --cask`):
+
 ```
 docker-desktop, claude-code, visual-studio-code
 ```
 
 **Choice groups** (install first available):
+
 - `aws`: `awscli`
 
 Node is managed exclusively via nvm — not installed directly via brew.
@@ -54,15 +57,19 @@ Node is managed exclusively via nvm — not installed directly via brew.
 ## Script Details
 
 ### `run_once_darwin-install-homebrew.sh`
+
 Checks if `brew` is on PATH. If absent, runs the official Homebrew install script. Idempotent.
 
 ### `run_onchange_darwin-install-packages.sh.tmpl`
+
 Triggered by changes to `{{ .packages.mac }}` in `.chezmoidata.toml`. Runs:
+
 - `brew install` for each core formula
 - `brew install --cask` for each cask
 - Choice group logic: if none of the candidates are installed, installs the first candidate
 
 ### `run_once_darwin-install-fisher-nvm.sh`
+
 1. Installs nvm for zsh via official install script → `~/.nvm`, patches `~/.zshrc`
 2. Installs fisher for fish if absent
 3. Installs `jorgebucaran/nvm.fish` via fisher if absent
@@ -70,13 +77,17 @@ Triggered by changes to `{{ .packages.mac }}` in `.chezmoidata.toml`. Runs:
 Both shells share `~/.nvm` so installed Node versions are available everywhere.
 
 ### `run_once_darwin-ensure-directories.sh.tmpl`
+
 Creates `{{ .repos.personal }}` and `{{ .repos.work }}` (same template data as Linux).
 
 ### `run_once_darwin-setup-ssh-include.sh`
+
 Identical logic to `run_once_setup-ssh-include.sh`: ensures `~/.ssh/config` exists with 0600 permissions and prepends the `Include ~/.ssh/config.d/*.conf` line if absent.
 
 ### `run_after_darwin-doctor.sh.tmpl`
+
 Runs without `-e`, reports all failures. Checks:
+
 - Homebrew installed
 - fish installed
 - fisher installed
