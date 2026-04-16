@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# chezmoi:hash — changes to these lists trigger re-run
+# Packages: {{ .packages.mac.core | join ", " }}
+# Casks: {{ .packages.mac.casks | join ", " }}
+# Choice: {{ .packages.mac.choice | toJson }}
+
+echo "[ritual] Installing brew formulae..."
+brew install {{ .packages.mac.core | join " " }}
+
+echo "[ritual] Installing brew casks..."
+brew install --cask {{ .packages.mac.casks | join " " }}
+
+# Choice packages (check if any candidate already installed, else install preferred)
+{{ range $name, $candidates := .packages.mac.choice }}
+choice_satisfied=false
+{{ range $candidates }}
+if brew list {{ . }} &>/dev/null 2>&1; then
+    choice_satisfied=true
+fi
+{{ end }}
+if ! $choice_satisfied; then
+{{ range $candidates }}
+    if ! $choice_satisfied && brew install {{ . }} 2>/dev/null; then
+        choice_satisfied=true
+    fi
+{{ end }}
+fi
+{{ end }}
+
+echo "[ritual] Package installation complete."
