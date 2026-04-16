@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Linux-only: yay/pacman are not available on macOS
+[[ "$(uname)" == "Darwin" ]] && exit 0
+
 # chezmoi:hash — these comments include the package lists so chezmoi detects
 # changes and re-runs the script when packages are added or removed.
 # Packages: {{ .packages.core | join ", " }}

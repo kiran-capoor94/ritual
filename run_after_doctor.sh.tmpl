@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Linux-only: systemd and yay checks are not applicable on macOS
+[[ "$(uname)" == "Darwin" ]] && exit 0
 # Note: intentionally no set -e — the ((failed++)) arithmetic and eval'd checks
 # would cause early exit. We want to run all checks and report results.
 
