@@ -16,7 +16,7 @@ brew install --cask {{ .packages.mac.casks | join " " }}
 {{ range $name, $candidates := .packages.mac.choice }}
 choice_satisfied=false
 {{ range $candidates }}
-if brew list {{ . }} &>/dev/null 2>&1; then
+if brew list {{ . }} &>/dev/null; then
     choice_satisfied=true
 fi
 {{ end }}
