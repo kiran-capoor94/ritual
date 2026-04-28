@@ -16,6 +16,7 @@ checks=(
     "fish -c 'type -q fisher'"
     "fish -c \"fisher list 2>/dev/null | grep -q 'jorgebucaran/nvm.fish'\""
     "git -C ${XDG_CONFIG_HOME:-$HOME/.config}/nvim remote get-url origin 2>/dev/null | grep -qF 'git@github-personal:buildWithAlchemist/wand.git'"
+    "uv tool list 2>/dev/null | grep -q '^wizard '"
 )
 
 if systemctl is-active --quiet tailscaled; then

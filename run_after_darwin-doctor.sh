@@ -12,6 +12,7 @@ checks=(
     "git -C ${XDG_CONFIG_HOME:-$HOME/.config}/nvim remote get-url origin 2>/dev/null | grep -qF 'git@github-personal:buildWithAlchemist/wand.git'"
     "brew list --cask claude-code"
     "brew list --cask docker-desktop || test -d /Applications/Docker.app"
+    "uv tool list 2>/dev/null | grep -q '^wizard '"
 )
 
 failed=0
