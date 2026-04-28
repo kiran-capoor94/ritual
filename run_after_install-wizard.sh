@@ -6,12 +6,12 @@ if ! command -v uv &>/dev/null; then
     exit 0
 fi
 
-if uv tool list 2>/dev/null | grep -q "^wizard "; then
-    echo "[ritual] wizard already installed, updating..."
-    uv tool upgrade wizard 2>/dev/null || true
-else
-    echo "[ritual] Installing wizard..."
-    uv tool install git+https://github.com/kiran-capoor94/wizard.git
+echo "[ritual] Installing/upgrading wizard..."
+uv tool install --upgrade git+https://github.com/kiran-capoor94/wizard.git
+
+if ! command -v wizard &>/dev/null; then
+    echo "[ritual] WARN: wizard binary not found in PATH after install, skipping setup"
+    exit 0
 fi
 
 wizard setup --agent all
