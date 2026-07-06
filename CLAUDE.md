@@ -4,9 +4,10 @@ This file provides guidance to Claude Code when working in this repository.
 
 ## What This Is
 
-Ritual is a chezmoi-managed dotfiles repository that supports two platforms:
+Ritual is a chezmoi-managed dotfiles repository that supports these platforms:
 - **CachyOS/Arch Linux** — primary development environment with Tailscale bridge to a Mac
 - **macOS** — direct setup via Homebrew, mirrors the Linux environment where applicable
+- **Windows** — via WSL2 running an Arch Linux distro; chezmoi reports `linux` inside WSL, so the Linux script tree applies as-is. A handful of scripts detect WSL (`grep -qi microsoft /proc/sys/kernel/osrelease`) and branch: Tailscale runs on the Windows host instead of inside WSL, and the clipboard bridge (`clip-push`/`clip-pull`) uses `clip.exe`/`powershell.exe` instead of `wl-paste`/`wl-copy` since WSL has no Wayland compositor. See README.md's "Windows (via WSL2)" section for one-time host-side setup (systemd, mirrored networking).
 
 It manages SSH config, clipboard bridge scripts (Linux), a systemd SSHFS mount (Linux), package installation, Fisher/nvm.fish, and Neovim config.
 

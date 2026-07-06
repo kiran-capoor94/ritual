@@ -6,6 +6,7 @@ Chezmoi-managed dotfiles for a CachyOS/Arch Linux development machine with a Tai
 
 **Linux:** CachyOS or Arch Linux, `curl` installed
 **macOS:** macOS with `curl` installed (Homebrew will be installed automatically)
+**Windows:** via WSL2, running an Arch Linux distro (see [Windows (via WSL2)](#windows-via-wsl2) below) — the Linux path applies as-is once inside WSL
 
 ## Install
 
@@ -49,6 +50,35 @@ Config is stored at `~/.config/chezmoi/chezmoi.toml`. Re-run `chezmoi init` to c
 | **Neovim config**     | Custom config cloned from buildWithAlchemist/wand                |
 | **Directories**       | `~/Documents/repos/{personal,work}`                              |
 | **Doctor checks**     | Verifies brew, fish, fisher, nvim config, claude-code, docker    |
+
+### Windows (via WSL2)
+
+Not a separate script tree — chezmoi still reports `linux` inside WSL, so the entire **Linux (CachyOS/Arch)** path above applies as-is once you're inside an Arch Linux WSL2 distro. A few things are guarded/adjusted specifically for WSL2:
+
+| Component            | Difference from native Linux                                                      |
+| --------------------- | ---------------------------------------------------------------------------------- |
+| **Tailscale**         | Run on the **Windows host**, not inside WSL (`run_once_enable-tailscale.sh` skips itself under WSL); enable [mirrored networking](https://learn.microsoft.com/en-us/windows/wsl/wsl-config) so WSL shares the host's Tailscale connectivity |
+| **Clipboard bridge**  | `clip-push`/`clip-pull` use `powershell.exe`/`clip.exe` instead of `wl-paste`/`wl-copy` (WSL has no Wayland compositor) |
+| **SSHFS mount**       | Should work (WSL2's kernel supports FUSE) but hasn't been battle-tested — verify after setup |
+
+**One-time Windows-side setup** (not managed by chezmoi):
+1. `wsl --install` (Windows 11 22H2+ for mirrored networking)
+2. Install the "Arch Linux" WSL distro (Microsoft Store, or [yuk7/ArchWSL](https://github.com/yuk7/ArchWSL))
+3. Bootstrap Arch: `pacman-key --init && pacman-key --populate archlinux-keyring && pacman -Syu`
+4. Enable systemd — add to `/etc/wsl.conf`:
+   ```
+   [boot]
+   systemd=true
+   ```
+   then from Windows: `wsl --shutdown`, reopen the distro
+5. Enable mirrored networking — add to `%UserProfile%\.wslconfig`:
+   ```
+   [wsl2]
+   networkingMode=mirrored
+   ```
+6. Install and run Tailscale on the Windows host
+
+Then run the same [Install](#install) command inside the Arch WSL2 shell.
 
 ## Repository Layout
 
@@ -94,6 +124,10 @@ Files prefixed with `dot_` map to `~/.*`. The `.tmpl` suffix means the file uses
 ### macOS
 1. Generate SSH keys if they don't exist and upload to GitHub
 2. Run `chezmoi apply` to verify doctor checks pass
+
+### Windows (via WSL2)
+1. Complete the Windows-side setup above (systemd, mirrored networking, host-side Tailscale) before running Install
+2. Same as Linux otherwise: generate SSH keys, upload to GitHub, enable the mount
 
 ## Day-to-Day
 

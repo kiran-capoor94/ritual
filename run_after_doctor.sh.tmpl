@@ -4,9 +4,11 @@
 # Note: intentionally no set -e — the ((failed++)) arithmetic and eval'd checks
 # would cause early exit. We want to run all checks and report results.
 
+is_wsl=false
+grep -qi microsoft /proc/sys/kernel/osrelease 2>/dev/null && is_wsl=true
+
 checks=(
     "command -v yay"
-    "systemctl is-enabled tailscaled"
     "command -v session-manager-plugin"
     "test -x ~/.local/bin/clip-push"
     "test -x ~/.local/bin/clip-pull"
@@ -19,8 +21,14 @@ checks=(
     "uv tool list 2>/dev/null | grep -q '^wizard '"
 )
 
-if systemctl is-active --quiet tailscaled; then
+if $is_wsl; then
+    # Tailscale runs on the Windows host under WSL2, not as a local tailscaled
     checks+=("ssh -o BatchMode=yes -o ConnectTimeout=5 macbridge true")
+else
+    checks+=("systemctl is-enabled tailscaled")
+    if systemctl is-active --quiet tailscaled; then
+        checks+=("ssh -o BatchMode=yes -o ConnectTimeout=5 macbridge true")
+    fi
 fi
 
 failed=0

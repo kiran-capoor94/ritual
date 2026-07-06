@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 content="$(ssh macbridge pbpaste 2>/dev/null)" || { echo "Nothing on Mac clipboard"; exit 1; }
-printf '%s' "$content" | wl-copy
-notify-send "Clipboard" "Pulled from Mac"
+
+if grep -qi microsoft /proc/sys/kernel/osrelease 2>/dev/null; then
+    # WSL2 has no Wayland compositor; write to the Windows clipboard via interop instead
+    printf '%s' "$content" | clip.exe
+else
+    printf '%s' "$content" | wl-copy
+fi
+
+if command -v notify-send >/dev/null 2>&1; then
+    notify-send "Clipboard" "Pulled from Mac"
+else
+    echo "Pulled from Mac"
+fi

@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
-content="$(wl-paste 2>/dev/null)" || { echo "Nothing on clipboard"; exit 1; }
+
+if grep -qi microsoft /proc/sys/kernel/osrelease 2>/dev/null; then
+    # WSL2 has no Wayland compositor; read the Windows clipboard via interop instead
+    content="$(powershell.exe -NoProfile -Command Get-Clipboard 2>/dev/null | tr -d '\r')"
+else
+    content="$(wl-paste 2>/dev/null)"
+fi
+[[ -n "$content" ]] || { echo "Nothing on clipboard"; exit 1; }
+
 printf '%s' "$content" | ssh macbridge pbcopy
-notify-send "Clipboard" "Sent to Mac"
+
+if command -v notify-send >/dev/null 2>&1; then
+    notify-send "Clipboard" "Sent to Mac"
+else
+    echo "Sent to Mac"
+fi
