@@ -11,8 +11,8 @@ fi
 
 printf '%s' "$content" | ssh macbridge pbcopy
 
-if command -v notify-send >/dev/null 2>&1; then
-    notify-send "Clipboard" "Sent to Mac"
+if command -v notify-send >/dev/null 2>&1 && notify-send "Clipboard" "Sent to Mac" 2>/dev/null; then
+    :
 else
     echo "Sent to Mac"
 fi
