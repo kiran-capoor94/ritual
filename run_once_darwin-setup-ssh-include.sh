@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# macOS-only: the Linux variant of this script handles other platforms
+[[ "$(uname)" != "Darwin" ]] && exit 0
+
 ssh_config="$HOME/.ssh/config"
 include_line="Include ~/.ssh/config.d/*.conf"
 

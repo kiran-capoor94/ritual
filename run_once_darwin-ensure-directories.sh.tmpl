@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# macOS-only: the Linux variant of this script handles other platforms
+[[ "$(uname)" != "Darwin" ]] && exit 0
+
 dirs=(
     "{{ .repos.personal }}"
     "{{ .repos.work }}"

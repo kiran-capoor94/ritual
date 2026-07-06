@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# macOS-only: Homebrew is not applicable on Linux
+[[ "$(uname)" != "Darwin" ]] && exit 0
+
 if command -v brew &>/dev/null; then
     echo "[ritual] Homebrew already installed"
     exit 0

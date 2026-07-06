@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Note: intentionally no set -e — we want to run all checks and report results.
 
+# macOS-only: the Linux variant of this script handles other platforms
+[[ "$(uname)" != "Darwin" ]] && exit 0
+
 checks=(
     "command -v brew"
     "brew list fish"

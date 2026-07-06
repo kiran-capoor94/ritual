@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# macOS-only: the Linux variant of this script handles other platforms
+[[ "$(uname)" != "Darwin" ]] && exit 0
+
 # Install nvm for zsh
 if [[ ! -d "$HOME/.nvm" ]]; then
     echo "[ritual] Installing nvm for zsh"

@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# macOS-only: the Linux variant of this script handles other platforms
+[[ "$(uname)" != "Darwin" ]] && exit 0
+
 # chezmoi:hash — changes to these lists trigger re-run
 # Packages: {{ .packages.mac.core | join ", " }}
 # Casks: {{ .packages.mac.casks | join ", " }}
