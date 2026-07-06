@@ -16,7 +16,9 @@ identity_file = {{ $macIdentityFile | quote }}
 airdrop_path = {{ $macAirdropPath | quote }}
 
 [data.mount]
-dir = "{{ .chezmoi.homeDir }}/mnt/mac_airdrop"
+# Must stay in sync with the systemd unit filename (dot_config/systemd/user/mnt-mac_airdrop.mount.tmpl):
+# systemd requires a mount unit's filename to be the escaped form of its Where= path.
+dir = "/mnt/mac_airdrop"
 
 [data.github.personal]
 host = "github-personal"

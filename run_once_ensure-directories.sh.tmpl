@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# {{ .mount.dir }} lives outside $HOME (its parent is root-owned) and its
+# path must stay in sync with the systemd mount unit's filename, so it's
+# created separately with sudo and handed to the current user.
+sudo mkdir -p "{{ .mount.dir }}"
+sudo chown "$USER":"$USER" "{{ .mount.dir }}"
+
 dirs=(
-    "{{ .mount.dir }}"
     "{{ .repos.personal }}"
     "{{ .repos.work }}"
 )

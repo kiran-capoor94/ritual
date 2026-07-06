@@ -1,0 +1,4 @@
+# This repo is full of bash scripts read directly by chezmoi/WSL. Force LF
+# checkouts everywhere so a Windows clone with core.autocrlf=true can't
+# silently break script shebangs.
+* text=auto eol=lf

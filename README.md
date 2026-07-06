@@ -36,7 +36,7 @@ Config is stored at `~/.config/chezmoi/chezmoi.toml`. Re-run `chezmoi init` to c
 | **Neovim config**       | Custom config cloned from buildWithAlchemist/wand                |
 | **Tailscale**           | Service enabled on install                                       |
 | **AWS Session Manager** | Plugin for SSM connections                                       |
-| **Directories**         | `~/Documents/repos/{personal,work}`, `~/mnt/mac_airdrop`        |
+| **Directories**         | `~/Documents/repos/{personal,work}`, `/mnt/mac_airdrop`        |
 
 ### macOS
 
