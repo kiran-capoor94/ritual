@@ -90,15 +90,15 @@ dot_ssh/config.d/               # ~/.ssh/config.d/
 dot_config/systemd/user/        # ~/.config/systemd/user/ (Linux)
 dot_local/bin/                  # ~/.local/bin/
 
-# Linux scripts
-run_once_install-yay.sh
-run_once_install-fisher-nvm.sh
-run_once_setup-nvim.sh
+# Linux scripts (numeric prefixes enforce install order: yay before packages before fisher/nvm)
+run_once_10-install-yay.sh
+run_onchange_20-install-packages.sh.tmpl   # re-runs when package list changes
+run_once_30-install-fisher-nvm.sh
+run_after_setup-nvim.sh
 run_once_install-session-manager.sh
 run_once_enable-tailscale.sh
 run_once_ensure-directories.sh.tmpl
 run_once_setup-ssh-include.sh
-run_onchange_install-packages.sh.tmpl   # re-runs when package list changes
 run_after_doctor.sh.tmpl                # health checks (every apply)
 run_after_systemd-reload.sh             # daemon-reload (every apply)
 

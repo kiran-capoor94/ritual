@@ -16,13 +16,13 @@ darwin-*
 
 # Exclude Linux-only scripts and files on Mac
 {{ if eq .chezmoi.os "darwin" }}
-install-yay.sh
+10-install-yay.sh
 enable-tailscale.sh
 install-session-manager.sh
-install-fisher-nvm.sh
+30-install-fisher-nvm.sh
 setup-ssh-include.sh
 ensure-directories.sh
-install-packages.sh
+20-install-packages.sh
 systemd-reload.sh
 doctor.sh
 .local/bin/clip-*
