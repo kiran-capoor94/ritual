@@ -10,6 +10,15 @@ Host {{ .github.work.host }}
     User git
     {{ if .github.work.key }}IdentityFile {{ .github.work.key }}{{ end }}
 
+# Bare git@github.com URLs (gh repo clone, upstream remotes, go get) match no
+# alias, so ssh falls back to the default identity and auth fails. Default them
+# to the personal key; work repos use the {{ .github.work.host }} alias explicitly.
+Host github.com
+    HostName github.com
+    User git
+    {{ if .github.personal.key }}IdentityFile {{ .github.personal.key }}
+    IdentitiesOnly yes{{ end }}
+
 {{ if .mac.hostname }}
 Host macbridge
     HostName {{ .mac.hostname }}
