@@ -1,0 +1,8 @@
+# Managed by chezmoi — do not edit manually
+#
+# Identity for the personal repo tree, applied by an includeIf in ~/.gitconfig.
+# Kept in one place rather than repeated in each repo's .git/config, so there is
+# a single value to change and no repo can be silently missed.
+[user]
+    name = {{ .git.commit_name }}
+    email = {{ .identity.personal.email }}

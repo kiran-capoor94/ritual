@@ -1,0 +1,15 @@
+# Managed by chezmoi — do not edit manually
+#
+# No email here on purpose. Identity comes from the includeIf blocks below, so a
+# repo in neither tree fails with "please tell me who you are" rather than
+# silently attributing commits to whichever address happened to be the global
+# default. Personal repos previously inherited the work address that way, and one
+# commit landed authored as <user@host.local>.
+[user]
+	name = {{ .git.commit_name }}
+
+[includeIf "gitdir:{{ .chezmoi.homeDir }}/Documents/repos/personal/"]
+	path = {{ .chezmoi.homeDir }}/.config/git/personal.inc
+
+[includeIf "gitdir:{{ .chezmoi.homeDir }}/Documents/repos/work/"]
+	path = {{ .chezmoi.homeDir }}/.config/git/work.inc

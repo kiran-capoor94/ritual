@@ -1,0 +1,6 @@
+# Managed by chezmoi — do not edit manually
+#
+# Identity for the work repo tree, applied by an includeIf in ~/.gitconfig.
+[user]
+    name = {{ .git.commit_name }}
+    email = {{ .identity.work.email }}

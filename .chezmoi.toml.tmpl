@@ -8,6 +8,7 @@
 {{- $personalEmail := promptString "Personal git email" -}}
 {{- $workName := promptString "Work git name" -}}
 {{- $workEmail := promptString "Work git email" -}}
+{{- $commitName := promptString "Git commit display name (author name on every commit, both trees)" "Kiran Capoor" -}}
 
 [data.mac]
 hostname = {{ $macHostname | quote }}
@@ -35,3 +36,8 @@ email = {{ $personalEmail | quote }}
 [data.identity.work]
 name = {{ $workName | quote }}
 email = {{ $workEmail | quote }}
+
+[data.git]
+# The human name recorded as commit author. Distinct from identity.*.name, which
+# holds GitHub usernames and must not be used here.
+commit_name = {{ $commitName | quote }}
